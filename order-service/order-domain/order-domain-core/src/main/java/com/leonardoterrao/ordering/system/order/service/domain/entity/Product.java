@@ -8,12 +8,16 @@ import lombok.Getter;
 @Getter
 public class Product extends BaseEntity<ProductId> {
 
-    private final String name;
-    private final Money price;
+    private String name;
+    private Money price;
 
     public Product(final ProductId productId, final String name, final Money price) {
-        super();
         super.setId(productId);
+        this.name = name;
+        this.price = price;
+    }
+
+    public void updateWithConfirmedNameAndPrice(final String name, final Money price) {
         this.name = name;
         this.price = price;
     }

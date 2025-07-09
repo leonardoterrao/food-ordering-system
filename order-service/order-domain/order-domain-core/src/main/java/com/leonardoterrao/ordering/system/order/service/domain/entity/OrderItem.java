@@ -15,6 +15,17 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     private final Money price;
     private final Money subTotal;
 
+    public void initializeOrderItem(final OrderId orderId, final OrderItemId orderItemId) {
+        super.setId(orderItemId);
+        this.orderId = orderId;
+    }
+
+    public boolean isPriceValid() {
+        return price.isGreaterThanZero()
+                && price.equals(product.getPrice())
+                && price.multiply(quantity).equals(subTotal);
+    }
+
     private OrderItem(final Builder builder) {
         super.setId(builder.orderItemId);
         this.product = builder.product;

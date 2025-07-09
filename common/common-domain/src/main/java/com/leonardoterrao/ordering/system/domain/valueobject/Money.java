@@ -12,6 +12,8 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor
 public class Money {
 
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
+
     private final BigDecimal amount;
 
     public boolean isGreaterThanZero() {
@@ -30,8 +32,8 @@ public class Money {
         return new Money(setScale(this.amount.subtract(money.getAmount())));
     }
 
-    public Money multiply(final BigDecimal multiplier) {
-        return new Money(setScale(this.amount.multiply(multiplier)));
+    public Money multiply(final int multiplier) {
+        return new Money(setScale(this.amount.multiply(new BigDecimal(multiplier))));
     }
 
     private static BigDecimal setScale(final BigDecimal input) {
