@@ -2,7 +2,7 @@ package com.leonardoterrao.ordering.system.order.service.domain.ports.input.mess
 
 import com.leonardoterrao.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 
-public interface RestaurantApprovalResponseMessage {
+public interface RestaurantApprovalResponseMessageListener {
 
     void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse);
 
