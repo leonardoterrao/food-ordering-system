@@ -10,6 +10,6 @@ public interface OrderApplicationService {
 
     CreateOrderResponse createOrder(@Valid CreateOrderCommand createOrderCommand);
 
-    TrackOrderResponse trakcOrder(@Valid TrackOrderQuery trackOrderResponse);
+    TrackOrderResponse trackOrder(@Valid TrackOrderQuery trackOrderResponse);
 
 }

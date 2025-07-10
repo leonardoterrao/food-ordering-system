@@ -25,7 +25,7 @@ class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public TrackOrderResponse trakcOrder(final TrackOrderQuery trackOrderResponse) {
+    public TrackOrderResponse trackOrder(final TrackOrderQuery trackOrderResponse) {
         return orderTrackCommandHandler.trackOrder(trackOrderResponse);
     }
 

@@ -2,19 +2,21 @@ package com.leonardoterrao.ordering.system.domain.valueobject;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Getter
 @EqualsAndHashCode(of = "amount")
-@RequiredArgsConstructor
 public class Money {
 
     public static final Money ZERO = new Money(BigDecimal.ZERO);
 
     private final BigDecimal amount;
+
+    public Money(final BigDecimal amount) {
+        this.amount = setScale(amount);
+    }
 
     public boolean isGreaterThanZero() {
         return this.amount != null && this.amount.compareTo(BigDecimal.ZERO) > 0;
