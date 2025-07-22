@@ -39,3 +39,4 @@ build/
 .DS_Store
 
 infrastructure/docker-compose/volumes/
+/.idea/shelf/
