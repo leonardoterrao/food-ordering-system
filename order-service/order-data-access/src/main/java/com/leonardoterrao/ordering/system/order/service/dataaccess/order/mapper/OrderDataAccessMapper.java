@@ -1,18 +1,22 @@
 package com.leonardoterrao.ordering.system.order.service.dataaccess.order.mapper;
 
 import com.leonardoterrao.ordering.system.domain.valueobject.CustomerId;
+import com.leonardoterrao.ordering.system.domain.valueobject.Money;
 import com.leonardoterrao.ordering.system.domain.valueobject.OrderId;
+import com.leonardoterrao.ordering.system.domain.valueobject.ProductId;
 import com.leonardoterrao.ordering.system.domain.valueobject.RestaurantId;
 import com.leonardoterrao.ordering.system.order.service.dataaccess.order.entity.OrderAddressEntity;
 import com.leonardoterrao.ordering.system.order.service.dataaccess.order.entity.OrderEntity;
 import com.leonardoterrao.ordering.system.order.service.dataaccess.order.entity.OrderItemEntity;
 import com.leonardoterrao.ordering.system.order.service.domain.entity.Order;
 import com.leonardoterrao.ordering.system.order.service.domain.entity.OrderItem;
+import com.leonardoterrao.ordering.system.order.service.domain.entity.Product;
+import com.leonardoterrao.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.leonardoterrao.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.leonardoterrao.ordering.system.order.service.domain.valueobject.TrackingId;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.leonardoterrao.ordering.system.order.service.domain.entity.Order.FAILURE_MESSAGE_DELIMITER;
@@ -51,8 +55,35 @@ public class OrderDataAccessMapper {
                 .customerId(new CustomerId(orderEntity.getCustomerId()))
                 .restaurantId(new RestaurantId(orderEntity.getRestaurantId()))
                 .trackingId(new TrackingId(orderEntity.getTrackingId()))
-//                .deliveryAddress() TODO continue from here tomorrow!
+                .deliveryAddress(addressEntityToDeliveryAddress(orderEntity.getAddress()))
+                .price(new Money(orderEntity.getPrice()))
+                .orderItems(orderItemsEntityToOrderItems(orderEntity.getItems()))
+                .orderStatus(orderEntity.getOrderStatus())
+                .failureMessages(orderEntity.getFailureMessages().isEmpty() ?
+                        new ArrayList<>() :
+                        List.of(orderEntity.getFailureMessages().split(FAILURE_MESSAGE_DELIMITER)))
                 .build();
+    }
+
+    private List<OrderItem> orderItemsEntityToOrderItems(List<OrderItemEntity> items) {
+        return items.stream()
+                .map(oi -> OrderItem.builder()
+                        .id(new OrderItemId(oi.getId()))
+                        .product(new Product(new ProductId(oi.getProductId())))
+                        .price(new Money(oi.getPrice()))
+                        .quantity(oi.getQuantity())
+                        .subTotal(new Money(oi.getSubTotal()))
+                        .build())
+                .toList();
+    }
+
+    private StreetAddress addressEntityToDeliveryAddress(OrderAddressEntity address) {
+        return new StreetAddress(
+                address.getId(),
+                address.getStreet(),
+                address.getPostalCode(),
+                address.getCity()
+        );
     }
 
     private List<OrderItemEntity> orderItemsToOrderItemEntities(List<OrderItem> items) {
