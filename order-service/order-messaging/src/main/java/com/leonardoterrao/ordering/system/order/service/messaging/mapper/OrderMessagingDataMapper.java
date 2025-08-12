@@ -3,9 +3,11 @@ package com.leonardoterrao.ordering.system.order.service.messaging.mapper;
 
 import com.leonardoterrao.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
 import com.leonardoterrao.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.leonardoterrao.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.leonardoterrao.ordering.system.kafka.order.avro.model.Product;
 import com.leonardoterrao.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
 import com.leonardoterrao.ordering.system.kafka.order.avro.model.RestaurantOrderStatus;
+import com.leonardoterrao.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.leonardoterrao.ordering.system.order.service.domain.entity.Order;
 import com.leonardoterrao.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.leonardoterrao.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -59,6 +61,21 @@ public class OrderMessagingDataMapper {
                 .setPrice(order.getPrice().getAmount())
                 .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
                 .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+                .build();
+    }
+
+    public PaymentResponse paymentResponseAvroModelToPaymentResponse(final PaymentResponseAvroModel responseAvroModel) {
+        return PaymentResponse.builder()
+                .id(responseAvroModel.getId().toString())
+                .sagaId(responseAvroModel.getSagaId().toString())
+                .orderId(responseAvroModel.getOrderId().toString())
+                .paymentId(responseAvroModel.getPaymentId().toString())
+                .customerId(responseAvroModel.getCustomerId().toString())
+                .price(responseAvroModel.getPrice())
+                .createAt(responseAvroModel.getCreatedAt())
+                .paymentStatus(com.leonardoterrao.ordering.system.domain.valueobject.PaymentStatus.valueOf(
+                        responseAvroModel.getPaymentStatus().name()))
+                .failureMessages(responseAvroModel.getFailureMessages())
                 .build();
     }
 
