@@ -1,0 +1,12 @@
+services:
+  order-db:
+    container_name: order-db
+    image: postgres:latest
+    networks:
+      - ordering-system
+    environment:
+      - POSTGRES_DB=order_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432

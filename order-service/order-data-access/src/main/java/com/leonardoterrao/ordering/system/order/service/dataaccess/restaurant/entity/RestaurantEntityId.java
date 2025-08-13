@@ -1,6 +1,5 @@
 package com.leonardoterrao.ordering.system.order.service.dataaccess.restaurant.entity;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,7 +9,6 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Entity
 @Getter
 @Setter
 @Builder
